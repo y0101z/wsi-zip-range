@@ -20,12 +20,12 @@ public class RangeController
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping("/")
-	public String home()
+	public String home() 
 	{
 		log.debug("Just testing...");
 		return "Just testing!";
 	}
-
+ 
 	@GetMapping({ "/ranges" })
 	public List<Range> listRanges()
 	{
