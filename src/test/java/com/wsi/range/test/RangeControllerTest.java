@@ -3,15 +3,28 @@ package com.wsi.range.test;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.wsi.range.WSIApplication;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = WSIApplication.class)
+@SpringBootTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RangeControllerTest
 {
 	private MockMvc mock;
@@ -60,10 +73,10 @@ public class RangeControllerTest
 	@Test
 	public void verifyInvalidRangeArgument() throws Exception 
 	{
-		mock.perform(MockMvcRequestBuilders.get("/blahblah")
+		mock.perform(MockMvcRequestBuilders.get("/ranges/blahblah")
 		.accept(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$.error").value(400))
-		.andExpect(jsonPath("$.message").value("The request could not be understood. Wrong syntax."))
+		.andExpect(jsonPath("$.errorCode").value(404))
+		.andExpect(jsonPath("$.message").value("Wrong UUID format."))
 		.andDo(print());
 	}
 	
@@ -72,7 +85,7 @@ public class RangeControllerTest
 	{
 		mock.perform(MockMvcRequestBuilders.get("/ranges/111aef11-11d1-11e1-a111-fd11feca111")
 		.accept(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$.error").value(404))
+		.andExpect(jsonPath("$.errorCode").value(404))
 		.andExpect(jsonPath("$.message").value("Range doesn't exist."))
 		.andDo(print());
 	}
@@ -88,16 +101,6 @@ public class RangeControllerTest
 	}
 	
 	@Test
-	public void verifyInvalidRangeIdToDelete() throws Exception 
-	{
-		mock.perform(MockMvcRequestBuilders.delete("/ranges/222aef22-22d2-22e2-a222-fd22feca222")
-		.accept(MediaType.APPLICATION_JSON))
-		.andExpect(jsonPath("$.error").value(404))
-		.andExpect(jsonPath("$.message").value("Range to delete doesn't exist."))
-		.andDo(print());
-	}
-	
-	@Test
 	public void verifySaveRange() throws Exception 
 	{
 		mock.perform(MockMvcRequestBuilders.post("/ranges/add/94546/94600")
@@ -109,4 +112,16 @@ public class RangeControllerTest
 		.andExpect(jsonPath("$.right").value(94600))
 		.andDo(print());
 	}
+	
+	@Test
+	public void verifyInvalidRangeIdToDelete() throws Exception 
+	{
+		mock.perform(MockMvcRequestBuilders.delete("/ranges/delete/222aef22-22d2-22e2-a222-fd22feca222")
+		.accept(MediaType.APPLICATION_JSON))
+		.andExpect(jsonPath("$.errorCode").value(404))
+		.andExpect(jsonPath("$.message").value("Range to delete doesn't exist."))
+		.andDo(print());
+	}
+	
+	
 }

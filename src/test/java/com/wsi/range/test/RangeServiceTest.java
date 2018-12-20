@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -20,6 +22,7 @@ import com.wsi.range.repository.IRangeRepository;
 import com.wsi.range.service.RangeService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RangeServiceTest
 {
 	@Mock
@@ -62,7 +65,7 @@ public class RangeServiceTest
 	}
 
 	@Test
-	public void testSaveRange()
+	public void testAddRange()
 	{
 		UUID id = UUID.fromString("52b6b042-b615-4665-9390-3cd48e77de76");
 		int left = 55555;
@@ -74,12 +77,12 @@ public class RangeServiceTest
 		assertEquals(left, result.getLeft());
 		assertEquals(right, result.getRight());
 	}
-
+	
 	@Test
-	public void testDeleteRange()
+	public void testRemoveRange()
 	{
-		UUID id = UUID.fromString("52b6b042-b615-4665-9390-3cd48e77de76");		
-		Range range = new Range(id, 55555, 88888); 
+		UUID id = UUID.fromString("841aef60-02d8-11e9-a311-fd94feca6183");		
+		Range range = new Range(id, 94600, 94699); 
 		service.delete(id);
 		verify(repository, times(1)).delete(range);
 	}

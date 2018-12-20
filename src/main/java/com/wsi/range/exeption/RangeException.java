@@ -12,7 +12,7 @@ public class RangeException extends Exception
 
 	public RangeException(String errorMessage)
 	{
-		super();
+		super(errorMessage);
 		this.errorMessage = errorMessage;
 	}
 
