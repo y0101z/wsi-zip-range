@@ -5,13 +5,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import com.wsi.range.model.Range;
 import com.wsi.range.service.RangeService;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class WSIApplication
+@ComponentScan("com.wsi.range")
+public class WSIApplication extends SpringBootServletInitializer implements CommandLineRunner // yz extends and implements for WAR and testing
 {
 	private static final Logger log = LoggerFactory.getLogger(WSIApplication.class);
 
@@ -32,5 +36,17 @@ public class WSIApplication
 			service.saveOrUpdate(new Range(UUID.fromString("841aef60-02d8-11e9-a311-fd94feca6183"), 94600, 94699));
 			log.info("The sample data has been generated");
 		};
+	}
+
+	@Override
+	public void run(String... args) throws Exception
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	@Override // yz this method is needed for WAR deployment
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder)
+	{
+		return builder.sources(WSIApplication.class);
 	}
 }
