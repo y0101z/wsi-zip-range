@@ -11,10 +11,10 @@ public class Range
 {
 	@PrimaryKey
 	private UUID id;
-	private Integer left;
-	private Integer right;
+	private int left;
+	private int right;
 
-	public Range(UUID id, Integer left, Integer right)
+	public Range(UUID id, int left, int right)
 	{
 		this.id = id;
 		this.left = left;
@@ -31,22 +31,22 @@ public class Range
 		this.id = id;
 	}
 
-	public Integer getLeft()
+	public int getLeft()
 	{
 		return left;
 	}
 
-	public void setLeft(Integer left)
+	public void setLeft(int left)
 	{
 		this.left = left;
 	}
 
-	public Integer getRight()
+	public int getRight()
 	{
 		return right;
 	}
 
-	public void setRight(Integer right)
+	public void setRight(int right)
 	{
 		this.right = right;
 	}

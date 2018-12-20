@@ -57,8 +57,8 @@ public class RangeServiceTest
 		when(repository.findById(id)).thenReturn(Optional.of(range));		
 		Optional<Range> result = service.getOne(id);
 		assertEquals(id, result.get().getId());
-		assertEquals(left, result.get().getLeft().intValue()); // result.get() because of Optional
-		assertEquals(right, result.get().getRight().intValue());
+		assertEquals(left, result.get().getLeft()); // result.get() because of Optional
+		assertEquals(right, result.get().getRight());
 	}
 
 	@Test
@@ -71,8 +71,8 @@ public class RangeServiceTest
 		when(repository.save(range)).thenReturn(range);
 		Range result = service.saveOrUpdate(range);
 		assertEquals(id, result.getId());
-		assertEquals(left, result.getLeft().intValue());
-		assertEquals(right, result.getRight().intValue());
+		assertEquals(left, result.getLeft());
+		assertEquals(right, result.getRight());
 	}
 
 	@Test
